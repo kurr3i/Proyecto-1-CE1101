@@ -21,3 +21,20 @@ lista_avatares = [
     "Franz Kafka",
     "Ilia Topuria"
 ]
+
+tierras_hollows = [
+    "Planeta Radiator (🏁)", 
+    "Planeta Pride (🦁)", 
+    "Planeta Monstro (👁️)", 
+    "Planeta Shrek (🧅)", 
+    "Planeta Zootopia (🦊)"
+]
+
+
+coordenadas_tierras = [
+    (150, 600), # Planeta 1 (Abajo izq)
+    (350, 400), # Planeta 2
+    (512, 200), # Planeta 3 (Centro arriba)
+    (700, 450), # Planeta 4
+    (900, 650)  # Planeta 5 (Abajo der)
+    ]

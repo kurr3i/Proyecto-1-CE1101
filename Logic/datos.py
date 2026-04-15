@@ -1,25 +1,26 @@
+# Logic/datos.py
+
 db_personajes = {
-    "Sans (Undertale)": {"hp": 1, "atq": 99, "def": 99},
-    "Goku (DBZ)": {"hp": 500, "atq": 450, "def": 300},
-    "Slash (GNR)": {"hp": 150, "atq": 120, "def": 80},
-    "Default Skin (Fortnite)": {"hp": 100, "atq": 50, "def": 50},
-    "Bills (DBZ)": {"hp": 1000, "atq": 900, "def": 800},
-    "Cristiano Ronaldo": {"hp": 200, "atq": 180, "def": 100},
-    "Peso Pluma": {"hp": 80, "atq": 40, "def": 30},
-    "Mike Tyson": {"hp": 300, "atq": 350, "def": 150},
-    "Mugman": {"hp": 120, "atq": 110, "def": 90},
-    "Creeper (Minecraft)": {"hp": 60, "atq": 500, "def": 20},
-    "Mordecai (Regular Show)": {"hp": 180, "atq": 90, "def": 110},
-    "Ed (Ed, Edd n Eddy)": {"hp": 400, "atq": 200, "def": 350},
-    "Yugi Muto (Faraón)": {"hp": 250, "atq": 400, "def": 300},
-    "Charmander": {"hp": 110, "atq": 130, "def": 80},
-    "Mii": {"hp": 150, "atq": 100, "def": 100}
+    "Sans (Undertale)": {"hp": 1, "atq": 99, "def": 99, "tipo": "Glass Cannon", "img": "sans.png"},
+    "Goku (DBZ)": {"hp": 500, "atq": 450, "def": 300, "tipo": "Equilibrado", "img": "goku.png"},
+    "Slash (GNR)": {"hp": 150, "atq": 120, "def": 80, "tipo": "Atacante", "img": "slash.png"},
+    "Default Skin (Fortnite)": {"hp": 100, "atq": 50, "def": 50, "tipo": "Básico", "img": "default.png"},
+    "Bills (DBZ)": {"hp": 1000, "atq": 900, "def": 800, "tipo": "Dios", "img": "bills.png"},
+    "Cristiano Ronaldo": {"hp": 200, "atq": 180, "def": 100, "tipo": "Veloz", "img": "cr7.png"},
+    "Peso Pluma": {"hp": 80, "atq": 40, "def": 30, "tipo": "Soporte", "img": "peso.png"},
+    "Mike Tyson": {"hp": 300, "atq": 350, "def": 150, "tipo": "Luchador", "img": "tyson.png"},
+    "Mugman": {"hp": 120, "atq": 110, "def": 90, "tipo": "Equilibrado", "img": "mugman.png"},
+    "Creeper (Minecraft)": {"hp": 60, "atq": 500, "def": 20, "tipo": "Suicida", "img": "creeper.png"},
+    "Mordecai (Regular Show)": {"hp": 180, "atq": 90, "def": 110, "tipo": "Equilibrado", "img": "mordecai.png"},
+    "Ed (Ed, Edd n Eddy)": {"hp": 400, "atq": 200, "def": 350, "tipo": "Tanque", "img": "ed.png"},
+    "Yugi Muto (Faraón)": {"hp": 250, "atq": 400, "def": 300, "tipo": "Estratega", "img": "yugi.png"},
+    "Charmander": {"hp": 110, "atq": 130, "def": 80, "tipo": "Atacante", "img": "charmander.png"},
+    "Mii": {"hp": 150, "atq": 100, "def": 100, "tipo": "Versátil", "img": "mii.png"}
 }
-# Al final de Logic/datos.py
 lista_avatares = [
-    "L (Death Note)",
-    "Franz Kafka",
-    "Ilia Topuria"
+    {"nombre": "L (Death Note)", "img": "l_deathnote.png"},
+    {"nombre": "Franz Kafka", "img": "franz_kafka.png"},
+    {"nombre": "Ilia Topuria", "img": "ilia_topuria.png"}
 ]
 
 tierras_hollows = [

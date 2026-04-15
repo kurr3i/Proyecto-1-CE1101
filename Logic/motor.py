@@ -3,9 +3,10 @@ from Logic.datos import db_personajes
 
 estado_juego = {
     "nombre": False,
-    "personaje": False,
+    "personajes_elegidos": [],
     "avatar": False,
-    "stats": None
+    "progreso": 0,
+    "puntos": 0  
 }
 
 def validar_nombre(nombre):
@@ -13,3 +14,7 @@ def validar_nombre(nombre):
 
 def obtener_stats(nombre_pj):
     return db_personajes.get(nombre_pj)
+
+def asignar_avatar(icono):
+    estado_juego["avatar"] = True
+    estado_juego["avatar_icono"] = icono

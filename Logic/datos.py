@@ -15,3 +15,9 @@ db_personajes = {
     "Charmander": {"hp": 110, "atq": 130, "def": 80},
     "Mii": {"hp": 150, "atq": 100, "def": 100}
 }
+# Al final de Logic/datos.py
+lista_avatares = [
+    "L (Death Note)",
+    "Franz Kafka",
+    "Ilia Topuria"
+]

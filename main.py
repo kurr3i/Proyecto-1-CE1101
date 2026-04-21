@@ -1,4 +1,8 @@
-from Interfaz.interfaz import ventana_principal
+import tkinter as tk
+from Interfaz.main_window import InterfazJuego
 
 if __name__ == "__main__":
-    ventana_principal.mainloop()
+    root = tk.Tk()
+    app = InterfazJuego(root)
+    app.mostrar_menu()
+    root.mainloop()

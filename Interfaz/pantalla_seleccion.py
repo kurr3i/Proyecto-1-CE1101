@@ -80,11 +80,17 @@ def seleccionar_personaje_grid(nombre, ventana_ref):
 
 def mostrar_detalles(nombre):
     info = db_personajes[nombre]
+    # Usamos .get() con valores por defecto para que no explote si la llave cambia
+    rol = info.get('ROL') or info.get('rol') or "Desconocido"
+    hp = info.get('hp') or info.get('VIDA') or 0
+    atk = info.get('atk') or info.get('atq') or info.get('ATAQUE') or 0
+    df = info.get('def') or info.get('DEFENSA') or 0
+
     texto = (f"NOMBRE: {nombre}\n\n"
-             f"TIPO: {info['tipo']}\n"
-             f"❤️ HP: {info['hp']}\n"
-             f"⚔️ ATQ: {info['atq']}\n"
-             f"🛡️ DEF: {info['def']}")
+             f"ROL: {rol}\n"
+             f"❤️ HP: {hp}\n"
+             f"⚔️ ATQ: {atk}\n"
+             f"🛡️ DEF: {df}")
     lbl_stats_dinamicos.config(text=texto, fg="white")
 
 def renderizar_grid_recursivo(contenedor, nombres, ventana_ref, fila, columna):
@@ -100,7 +106,7 @@ def renderizar_grid_recursivo(contenedor, nombres, ventana_ref, fila, columna):
     
     img_pj = cargar_img(datos["img"])
     if img_pj:
-        datos["_tk_render"] = img_pj 
+        cajita.img_ref = img_pj 
     
     btn = tk.Button(cajita, image=img_pj if img_pj else "", relief="raised", bg="#f0f0f0",
                     command=lambda n=nombre: seleccionar_personaje_grid(n, ventana_ref))
@@ -134,7 +140,7 @@ def refrescar_pantalla_seleccion(frame_padre, callback_volver):
     
     img_fondo = cargar_img("fondo_personajes.png")
     if img_fondo:
-        frame_padre.img_f = img_fondo 
+        canvas.bg_ref = img_fondo 
         canvas.create_image(0, 0, image=img_fondo, anchor="nw")
 
     frame_info = tk.Frame(frame_padre, bg="#1a1a1a", bd=3, relief="ridge", width=250, height=400)
@@ -160,7 +166,20 @@ def refrescar_pantalla_seleccion(frame_padre, callback_volver):
 def construir_equipo_recursivo(nombres):
     if not nombres:
         return []
-    return [obtener_stats(nombres[0])] + construir_equipo_recursivo(nombres[1:])
+    
+    nombre = nombres[0]
+    stats = db_personajes.get(nombre, {})
+    
+    pj = {
+        "nombre": nombre,
+        "hp": stats.get("hp", 100),
+        "atq": stats.get("atq", 50),
+        "def": stats.get("def", 50),
+        "img": stats.get("img", ""),
+        "sprite": stats.get("sprite", f"{nombre.lower()}_s.png")
+    }
+    
+    return [pj] + construir_equipo_recursivo(nombres[1:])
 
 def finalizar(callback):
     global fase_intercambio, personaje_a_cambiar

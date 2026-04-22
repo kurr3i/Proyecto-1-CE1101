@@ -6,14 +6,35 @@ db_personajes = {}
 def procesar_filas_recursivo(lector):
     try:
         fila = next(lector)
-        db_personajes[fila["nombre"]] = {
-            "hp": int(fila["hp"]),
-            "atq": int(fila["atq"]),
-            "def": int(fila["def"]),
-            "tipo": fila["tipo"],
-            "img": fila["img"]
+        nombre = fila.get("nombre", "Desconocido").strip()
+        
+        try:
+            hp = int(fila.get("hp", 0))
+            atq = int(fila.get("atq", 0))
+            df = int(fila.get("def", 0))
+        except ValueError:
+            print(f"⚠️ Error en datos numéricos para {nombre}. Usando valores base.")
+            hp, atq, df = 100, 10, 5
+
+        # Asignación segura
+        db_personajes[nombre] = {
+            "hp": hp,
+            "atq": atq,
+            "def": df,
+            "tipo": fila.get("tipo", "Ataque"),
+            "img": fila.get("img", "default.png"),
+            "sprite": fila.get("sprite", f"{nombre.lower()}_s.png") # Si no hay sprite, inventa uno
         }
+
+        print(f"✅ {nombre} cargado correctamente.")
         procesar_filas_recursivo(lector)
+
+    except StopIteration:
+        return
+    except Exception as e:
+        print(f"❌ Error procesando fila: {e}")
+        procesar_filas_recursivo(lector)
+
     except StopIteration:
         return
 

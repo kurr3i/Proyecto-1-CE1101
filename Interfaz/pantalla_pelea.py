@@ -41,6 +41,7 @@ def crear_pantalla_pelea(frame_padre, estado_juego, callback_regreso, callback_v
         canvas.create_window(640, 500, window=btn_retry, tags="dinamico")
 
     def actualizar_escena_recursiva(lista_bandos):
+        # 1. Dibujar el fondo solo una vez (cuando la lista está completa)
         if len(lista_bandos) == 2:
             canvas.delete("dinamico")
             bg = cargar_img("fondo_pelea.png")
@@ -53,35 +54,46 @@ def crear_pantalla_pelea(frame_padre, estado_juego, callback_regreso, callback_v
         lado, p = lista_bandos[0]
         if p:
             nombre = obtener_nombre_seguro(p)
+            # Posición de las barras de vida
             x_pos = 100 if lado == "jugador" else 780
+            
             info_db = db_personajes.get(nombre, {})
             hp_max = info_db.get("hp", 100)
             hp_actual = p.get("hp", 0)
             ratio = (hp_actual / hp_max) if hp_max > 0 else 0
             
-            # Dibujar Barras
+            # Dibujar Barras de vida (se mantienen igual)
             canvas.create_rectangle(x_pos, 60, x_pos+400, 85, fill="#c0392b", outline="white", tags="dinamico")
             canvas.create_rectangle(x_pos, 60, x_pos+(400*ratio), 85, fill="#2ecc71", outline="white", tags="dinamico")
             canvas.create_text(x_pos+200, 45, text=f"{nombre}: {hp_actual} HP", 
                                fill="white", font=("Consolas", 12, "bold"), tags="dinamico")
 
-            # Dibujar Sprite
-            sprite_path = p.get("sprite") or info_db.get("sprite") or f"{nombre.lower()}_s.png"
-            sprite_img = cargar_img(str(sprite_path))
+            # --- LÓGICA DE SPRITE (Lado Izquierdo para el Jugador) ---
+            # Buscamos el nombre del archivo del sprite
+            nombre_sprite = p.get("sprite") 
+            
+            # Cargamos la imagen desde la carpeta Assets
+            sprite_img = cargar_img(nombre_sprite)
+            
             if sprite_img:
+                # Guardamos la referencia para que Python no la borre de memoria
                 canvas.refs[f"spr_{lado}"] = sprite_img
+                
+                # px = 350 es el lado IZQUIERDO (Jugador)
+                # px = 930 es el lado DERECHO (Hollow)
                 px = 350 if lado == "jugador" else 930
-                canvas.create_image(px, 450, image=sprite_img, tags="dinamico")
+                py = 450 # Altura en el campo
+                
+                canvas.create_image(px, py, image=sprite_img, tags="dinamico")
 
+        # Llamada recursiva para procesar al siguiente bando (el enemigo)
         actualizar_escena_recursiva(lista_bandos[1:])
 
     # --- LÓGICA DE TURNOS ---
-# --- LÓGICA DE TURNOS ---
     def manejar_ataque():
         btn_atk.config(state="disabled")
         btn_sw.config(state="disabled")
         
-        # ko es True/False, danio_real es el número
         ko, danio_real = procesar_ataque_recursivo(datos, True)
         actualizar_escena_recursiva([("jugador", datos.get("activo_jugador")), 
                                     ("hollow", datos.get("activo_hollow"))])
@@ -89,20 +101,16 @@ def crear_pantalla_pelea(frame_padre, estado_juego, callback_regreso, callback_v
         if ko:
             gestionar_captura(datos, False)
             
-            # Si el equipo enemigo está vacío, el jugador ganó la batalla
+            # --- EL ARREGLO ESTÁ AQUÍ ---
             if not datos.get("equipo_hollow"): 
-                # 1. Actualizamos el progreso en el estado global
+                # Subimos el progreso
                 estado_juego["progreso"] = estado_juego.get("progreso", 0) + 1
                 
-                # 2. Extraemos los datos reales para la pantalla de victoria
-                # Usamos obtener_nombre_seguro para evitar el "True"
-                nombre_finalista = obtener_nombre_seguro(datos.get("activo_jugador"))
-                puntaje_batalla = datos.get("puntos_jugador", 0)
-                
-                # 3. Llamamos a la función de main_window.py pasando los datos
-                return callback_victoria(nombre_finalista, puntaje_batalla)
+                # ¡FALTABA ESTE RETURN! Esto corta la función y nos devuelve a main_window
+                return callback_regreso() 
+            # ----------------------------
             
-            # Si aún hay enemigos, sale el siguiente
+            # Si el código llega hasta aquí, significa que SÍ quedan enemigos
             datos["activo_hollow"] = datos["equipo_hollow"][0]
             actualizar_escena_recursiva([("jugador", datos.get("activo_jugador")), 
                                         ("hollow", datos.get("activo_hollow"))])

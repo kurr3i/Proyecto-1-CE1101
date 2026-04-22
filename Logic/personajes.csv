@@ -1,16 +1,16 @@
-nombre,hp,atq,def,tipo,img
-Sans (Undertale),1,99,99,Glass Cannon,sans.png
-Goku (DBZ),500,450,300,Equilibrado,goku.png
-Slash (GNR),150,120,80,Atacante,slash.png
-Default Skin (Fortnite),100,50,50,Básico,default.png
-Bills (DBZ),1000,900,800,Dios,bills.png
-Cristiano Ronaldo,200,180,100,Veloz,cr7.png
-Peso Pluma,80,40,30,Soporte,peso.png
-Mike Tyson,300,350,150,Luchador,tyson.png
-Mugman,120,110,90,Equilibrado,mugman.png
-Creeper (Minecraft),60,500,20,Suicida,creeper.png
-Mordecai (Regular Show),180,90,110,Equilibrado,mordecai.png
-Ed Edd n Eddy,400,200,350,Tanque,ed.png
-Yugi Muto (Faraón),250,400,300,Estratega,yugi.png
-Charmander,110,130,80,Atacante,charmander.png
-Mii,150,100,100,Versátil,mii.png
+nombre,hp,atq,def,tipo,img,sprite
+Sans (Undertale),1,99,99,Glass Cannon,sans.png,sans_s.png
+Goku (DBZ),800,780,660,Equilibrado,goku.png,goku_s.png
+Slash (GNR),150,120,80,Atacante,slash.png,slash_s.png
+Default Skin (Fortnite),100,50,50,Básico,default.png,default_s.png
+Bills (DBZ),1000,900,800,Dios,bills.png,bills_s.png
+Cristiano Ronaldo,200,180,100,Veloz,cr7.png,cr7_s.png
+Peso Pluma,80,40,30,Soporte,peso.png,peso_s.png
+Mike Tyson,300,350,150,Luchador,tyson.png,tyson_s.png
+Mugman,120,110,90,Equilibrado,mugman.png,mugman_s.png
+Creeper (Minecraft),60,500,20,Suicida,creeper.png,creeper_s.png
+Mordecai (Regular Show),180,90,110,Equilibrado,mordecai.png,mordecai_s.png
+Ed Edd n Eddy,400,200,350,Tanque,ed.png,ed_s.png
+Yugi Muto (Faraón),250,400,300,Estratega,yugi.png,yugi_s.png
+Charmander,110,130,80,Atacante,charmander.png,charmander_s.png
+Mii,150,100,100,Versátil,mii.png,mii_s.png

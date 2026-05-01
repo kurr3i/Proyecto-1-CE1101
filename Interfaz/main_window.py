@@ -7,6 +7,7 @@ from Interfaz.pantalla_about import crear_pantalla_about
 from Interfaz.pantalla_mapa import crear_pantalla_mapa
 from Interfaz.pantalla_pelea import crear_pantalla_pelea
 from Logic.motor import estado_juego, validar_nombre
+from Logic.audio import reproducir_musica
 
 class InterfazJuego:
     def __init__(self, root):

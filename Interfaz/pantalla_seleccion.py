@@ -1,3 +1,6 @@
+# ==========================================
+# INTERFAZ: PANTALLA DE SELECCIÓN DE PERSONAJES
+# ==========================================
 import tkinter as tk
 import os
 from tkinter import messagebox
@@ -13,6 +16,9 @@ botones_pj = {}
 lbl_stats_dinamicos = None
 btn_guardar_pj = None
 
+# ==========================================
+# FUNCIONES DE LIMPIEZA Y ESTADO
+# ==========================================
 def limpiar_widgets_recursivo(widgets):
     if not widgets:
         return
@@ -25,6 +31,9 @@ def verificar_estado_seleccion():
     else:
         btn_guardar_pj.config(state="disabled", bg="gray", fg="black")
 
+# ==========================================
+# LÓGICA DE SELECCIÓN E INTERCAMBIO
+# ==========================================
 def parpadear_amarillo(boton, ventana_ref):
     if fase_intercambio and boton_parpadeando == boton:
         color_actual = boton.cget("bg")
@@ -78,13 +87,16 @@ def seleccionar_personaje_grid(nombre, ventana_ref):
         messagebox.showwarning("Equipo Lleno", "¡Solo puedes llevar 3! Haz clic en uno verde para cambiarlo.")
     verificar_estado_seleccion()
 
+# ==========================================
+# RENDERIZADO DE STATS Y VISUALES
+# ==========================================
 def mostrar_detalles(nombre):
     info = db_personajes[nombre]
-    # Usamos .get() con valores por defecto para que no explote si la llave cambia
-    rol = info.get('ROL') or info.get('rol') or "Desconocido"
-    hp = info.get('hp') or info.get('VIDA') or 0
-    atk = info.get('atk') or info.get('atq') or info.get('ATAQUE') or 0
-    df = info.get('def') or info.get('DEFENSA') or 0
+    # Se amplían las opciones de búsqueda de diccionarios para evitar nulos
+    rol = info.get('tipo') or info.get('Tipo') or "Desconocido"
+    hp = info.get('hp') or info.get('Hp') or info.get('VIDA') or 0
+    atk = info.get('atq') or info.get('atk') or info.get('Atq') or info.get('ATAQUE') or 0
+    df = info.get('def') or info.get('Def') or info.get('DEFENSA') or 0
 
     texto = (f"NOMBRE: {nombre}\n\n"
              f"ROL: {rol}\n"
@@ -129,6 +141,9 @@ def renderizar_grid_recursivo(contenedor, nombres, ventana_ref, fila, columna):
         
     renderizar_grid_recursivo(contenedor, nombres[1:], ventana_ref, nuevo_f, nuevo_c)
 
+# ==========================================
+# INICIALIZACIÓN DE LA PANTALLA
+# ==========================================
 def refrescar_pantalla_seleccion(frame_padre, callback_volver):
     global btn_guardar_pj, lbl_stats_dinamicos, botones_pj
     botones_pj = {} 
@@ -163,6 +178,9 @@ def refrescar_pantalla_seleccion(frame_padre, callback_volver):
     canvas.create_window(640, 660, window=btn_guardar_pj)
     verificar_estado_seleccion()
 
+# ==========================================
+# GESTIÓN FINAL Y CONSTRUCCIÓN DEL EQUIPO
+# ==========================================
 def construir_equipo_recursivo(nombres):
     if not nombres:
         return []

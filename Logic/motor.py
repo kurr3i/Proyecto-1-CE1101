@@ -1,3 +1,6 @@
+# ==========================================
+# LOGIC: ESTADO DEL JUEGO Y MOTOR PRINCIPAL
+# ==========================================
 from Logic.datos import db_personajes
 
 estado_juego = {
@@ -10,6 +13,9 @@ estado_juego = {
     "nivel_actual": 1 
 }
 
+# ==========================================
+# VALIDACIONES Y CONSULTAS RECURSIVAS
+# ==========================================
 def validar_nombre_recursivo(nombre):
     if not nombre:
         return False
@@ -30,20 +36,17 @@ def buscar_stats_recursivo(nombres_db, objetivo):
 def obtener_stats(nombre_pj):
     return buscar_stats_recursivo(list(db_personajes.keys()), nombre_pj)
 
+# ==========================================
+# GESTIÓN DE ESTADO Y PROGRESO
+# ==========================================
 def asignar_avatar(icono):
     estado_juego["avatar"] = True
     estado_juego["avatar_icono"] = icono
 
 def registrar_victoria_nivel():
-    """
-    Sube el nivel actual. Si se pasa del límite (ej. nivel 3),
-    cambia el estado a 'VICTORIA'.
-    """
     LIMITE_NIVELES = 5
     
-    if estado_juego["nivel_actual"] < LIMITE_NIVELES:
+    if estado_juego.get("nivel_actual", 1) < LIMITE_NIVELES:
         estado_juego["nivel_actual"] += 1
-        print(f"✅ Nivel superado. Siguiente nivel: {estado_juego['nivel_actual']}")
     else:
         estado_juego["nivel_actual"] = "VICTORIA"
-        print("🏆 ¡JUEGO COMPLETADO! Estado: VICTORIA")

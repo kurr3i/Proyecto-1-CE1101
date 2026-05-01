@@ -92,7 +92,6 @@ def seleccionar_personaje_grid(nombre, ventana_ref):
 # ==========================================
 def mostrar_detalles(nombre):
     info = db_personajes[nombre]
-    # Se amplían las opciones de búsqueda de diccionarios para evitar nulos
     rol = info.get('tipo') or info.get('Tipo') or "Desconocido"
     hp = info.get('hp') or info.get('Hp') or info.get('VIDA') or 0
     atk = info.get('atq') or info.get('atk') or info.get('Atq') or info.get('ATAQUE') or 0

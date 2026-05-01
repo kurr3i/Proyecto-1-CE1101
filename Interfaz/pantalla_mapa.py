@@ -12,12 +12,18 @@ nombres_hollows = [
     "La Unión Multiversal"
 ]
 
+# ==========================================
+# UTILIDADES DE INTERFAZ
+# ==========================================
 def limpiar_widgets_recursivo(widgets):
     if not widgets:
         return
     widgets[0].destroy()
     limpiar_widgets_recursivo(widgets[1:])
 
+# ==========================================
+# RENDERIZADO DE PANTALLA
+# ==========================================
 def crear_pantalla_mapa(frame_padre, estado_juego, callback_batalla):
     limpiar_widgets_recursivo(frame_padre.winfo_children())
     

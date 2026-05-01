@@ -17,6 +17,10 @@ def limpiar_recursivo(widgets):
     widgets[0].destroy()
     limpiar_recursivo(widgets[1:])
 
+def extraer_nombres_recursivo(lista):
+    if not lista: return []
+    return [lista[0]["nombre"]] + extraer_nombres_recursivo(lista[1:])
+
 def reiniciar_juego():
     detener_musica()
     python = sys.executable
@@ -114,7 +118,7 @@ def crear_pantalla_pelea(frame_padre, estado_juego, callback_regreso, callback_v
             gestionar_captura(datos, False) 
             if not datos.get("equipo_hollow"): 
                 estado_juego["progreso"] = estado_juego.get("progreso", 0) + 1
-                estado_juego["personajes_elegidos"] = [p["nombre"] for p in datos["equipo_jugador"]]
+                estado_juego["personajes_elegidos"] = extraer_nombres_recursivo(datos["equipo_jugador"])
                 estado_juego["score"] = estado_juego.get("score", 0) + datos.get("puntos_jugador", 0)
                 reproducir_musica("menu.wav")
                 return callback_regreso() 

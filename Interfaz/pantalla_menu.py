@@ -1,12 +1,21 @@
+# ==========================================
+# INTERFAZ: PANTALLA PRINCIPAL DE MENÚ
+# ==========================================
 import tkinter as tk
 from Interfaz.componentes import cargar_img
 
+# ==========================================
+# UTILIDADES DE INTERFAZ
+# ==========================================
 def limpiar_widgets_recursivo(widgets):
     if not widgets:
         return
     widgets[0].destroy()
     limpiar_widgets_recursivo(widgets[1:])
 
+# ==========================================
+# RENDERIZADO DE PANTALLA
+# ==========================================
 def crear_pantalla_menu(frame_padre, ir_a_chsel, ir_a_avatar, ir_a_about, var_nombre):
     limpiar_widgets_recursivo(frame_padre.winfo_children())
     

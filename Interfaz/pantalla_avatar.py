@@ -1,14 +1,23 @@
+# ==========================================
+# INTERFAZ: PANTALLA DE SELECCIÓN DE AVATAR
+# ==========================================
 import tkinter as tk
 from Interfaz.componentes import cargar_img
 from Logic.datos import lista_avatares
 from Logic.motor import asignar_avatar
 
+# ==========================================
+# UTILIDADES DE INTERFAZ
+# ==========================================
 def limpiar_widgets_recursivo(widgets):
     if not widgets:
         return
     widgets[0].destroy()
     limpiar_widgets_recursivo(widgets[1:])
 
+# ==========================================
+# RENDERIZADO RECURSIVO DEL GRID
+# ==========================================
 def renderizar_avatares_recursivo(contenedor, lista, f, c):
     if not lista:
         return
@@ -40,6 +49,9 @@ def renderizar_avatares_recursivo(contenedor, lista, f, c):
         
     renderizar_avatares_recursivo(contenedor, lista[1:], nuevo_f, nuevo_c)
 
+# ==========================================
+# CREACIÓN DE PANTALLA
+# ==========================================
 def crear_pantalla_avatar(frame_padre, callback_volver):
     limpiar_widgets_recursivo(frame_padre.winfo_children())
     

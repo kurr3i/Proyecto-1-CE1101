@@ -4,12 +4,18 @@
 import tkinter as tk
 from Interfaz.componentes import cargar_img
 
+# ==========================================
+# GESTIÓN DE INTERFAZ
+# ==========================================
 def limpiar_widgets_recursivo(widgets):
     if not widgets:
         return
     widgets[0].destroy()
     limpiar_widgets_recursivo(widgets[1:])
 
+# ==========================================
+# RENDERIZADO DE PANTALLA
+# ==========================================
 def crear_pantalla_about(frame_padre, callback_volver):
     limpiar_widgets_recursivo(frame_padre.winfo_children())
     

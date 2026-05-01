@@ -1,8 +1,14 @@
+# ==========================================
+# LOGIC: BASE DE DATOS Y CARGA DE ACTIVOS
+# ==========================================
 import csv
 import os
 
 db_personajes = {}
 
+# ==========================================
+# PROCESAMIENTO RECURSIVO DE ARCHIVOS
+# ==========================================
 def procesar_filas_recursivo(lector):
     try:
         fila = next(lector)
@@ -13,31 +19,29 @@ def procesar_filas_recursivo(lector):
             atq = int(fila.get("atq", 0))
             df = int(fila.get("def", 0))
         except ValueError:
-            print(f"⚠️ Error en datos numéricos para {nombre}. Usando valores base.")
+            print(f"Error numerico en {nombre}. Usando base.")
             hp, atq, df = 100, 10, 5
 
-        # Asignación segura
         db_personajes[nombre] = {
             "hp": hp,
             "atq": atq,
             "def": df,
             "tipo": fila.get("tipo", "Ataque"),
             "img": fila.get("img", "default.png"),
-            "sprite": fila.get("sprite", f"{nombre.lower()}_s.png") # Si no hay sprite, inventa uno
+            "sprite": fila.get("sprite", f"{nombre.lower()}_s.png")
         }
 
-        print(f"✅ {nombre} cargado correctamente.")
         procesar_filas_recursivo(lector)
 
     except StopIteration:
         return
     except Exception as e:
-        print(f"❌ Error procesando fila: {e}")
+        print(f"Error procesando fila: {e}")
         procesar_filas_recursivo(lector)
 
-    except StopIteration:
-        return
-
+# ==========================================
+# INICIALIZACIÓN
+# ==========================================
 def cargar_personajes():
     global db_personajes
     ruta = os.path.join(os.path.dirname(__file__), "personajes.csv")
@@ -45,12 +49,14 @@ def cargar_personajes():
         with open(ruta, mode='r', encoding='utf-8') as f:
             lector = csv.DictReader(f)
             procesar_filas_recursivo(lector)
-        print("✅ Personajes migrados recursivamente desde CSV.")
     except Exception as e:
-        print(f"❌ Error migrando personajes: {e}")
+        print(f"Error cargando archivo CSV: {e}")
 
 cargar_personajes()
 
+# ==========================================
+# DATOS ESTÁTICOS
+# ==========================================
 lista_avatares = [
     {"nombre": "L (Death Note)", "img": "l_deathnote.png"},
     {"nombre": "Franz Kafka", "img": "franz_kafka.png"},
@@ -58,9 +64,9 @@ lista_avatares = [
 ]
 
 tierras_hollows = [
-    "Planeta Radiator (🏁)", "Planeta Pride (🦁)", 
-    "Planeta Monstro (👁️)", "Planeta Shrek (🧅)", 
-    "Planeta Zootopia (🦊)"
+    "Planeta Radiator", "Planeta Pride", 
+    "Planeta Monstro", "Planeta Shrek", 
+    "Planeta Zootopia"
 ]
 
 coordenadas_tierras = [

@@ -1,7 +1,13 @@
+# ==========================================
+# MAIN: PUNTO DE ENTRADA DEL JUEGO
+# ==========================================
 import tkinter as tk
 from Interfaz.main_window import InterfazJuego
 from Logic.audio import reproducir_musica, detener_musica
 
+# ==========================================
+# EJECUCIÓN PRINCIPAL
+# ==========================================
 if __name__ == "__main__":
     root = tk.Tk()
     app = InterfazJuego(root)

@@ -1,6 +1,12 @@
+# ==========================================
+# LOGIC: SISTEMA DE COMBATE Y ESTADÍSTICAS
+# ==========================================
 import random
 from Logic.datos import db_personajes
 
+# ==========================================
+# UTILIDADES RECURSIVAS
+# ==========================================
 def buscar_nombre_db_recursivo(claves, objetivo):
     if not claves:
         return None
@@ -18,31 +24,43 @@ def limpiar_nombre_recursivo(nombre):
         return limpiar_nombre_recursivo(nombre[:-1])
     return nombre
 
-def calcular_danio(atq_atacante, def_defensor):
-    """Retorna el daño calculado y un booleano que indica si fue golpe crítico."""
-    danio_base = atq_atacante - def_defensor
-    if danio_base <= 0:
-        danio_base = 1
-        
-    # 20% de probabilidad de golpe crítico
-    es_critico = random.randint(1, 100) <= 20
-    
-    if es_critico:
-        danio_final = danio_base * 2
-        print(f"💥 ¡GOLPE CRÍTICO! Daño duplicado: {danio_final}")
-    else:
-        danio_final = danio_base
-        
-    return danio_final, es_critico
+def filtrar_nombres_recursivo(nombres, exclusion):
+    if not nombres:
+        return []
+    if nombres[0] != exclusion:
+        return [nombres[0]] + filtrar_nombres_recursivo(nombres[1:], exclusion)
+    return filtrar_nombres_recursivo(nombres[1:], exclusion)
+
+def remover_elemento_recursivo(lista, elemento, indice=0):
+    if indice >= len(lista):
+        return
+    if lista[indice] == elemento:
+        lista.pop(indice)
+        return
+    remover_elemento_recursivo(lista, elemento, indice + 1)
 
 def obtener_nombre_pj(pj):
     if not pj: return None
     return pj.get("nombre") or pj.get("name") or pj.get("Nombre")
 
+# ==========================================
+# MECÁNICAS DE DAÑO
+# ==========================================
+def calcular_danio(atq_atacante, def_defensor):
+    danio_base = atq_atacante - def_defensor
+    if danio_base <= 0:
+        danio_base = 1
+        
+    es_critico = random.randint(1, 100) <= 20
+    
+    if es_critico:
+        danio_final = danio_base * 2
+    else:
+        danio_final = danio_base
+        
+    return danio_final, es_critico
+
 def procesar_ataque_recursivo(estado, es_jugador):
-    """
-    Maneja el ataque y retorna (KO, Daño, Es_Critico).
-    """
     atacante = estado["activo_jugador"] if es_jugador else estado["activo_hollow"]
     defensor = estado["activo_hollow"] if es_jugador else estado["activo_jugador"]
 
@@ -51,13 +69,16 @@ def procesar_ataque_recursivo(estado, es_jugador):
     
     return defensor["hp"] <= 0, danio, es_critico
 
+# ==========================================
+# GESTIÓN DE EQUIPOS Y CAPTURAS
+# ==========================================
 def gestionar_captura(estado, victima_es_jugador):
     equipo_pierde = estado["equipo_jugador"] if victima_es_jugador else estado["equipo_hollow"]
     equipo_gana = estado["equipo_hollow"] if victima_es_jugador else estado["equipo_jugador"]
     pj = estado["activo_jugador"] if victima_es_jugador else estado["activo_hollow"]
 
     if pj in equipo_pierde:
-        equipo_pierde.remove(pj)
+        remover_elemento_recursivo(equipo_pierde, pj)
     
     nombre_real = obtener_nombre_pj(pj)
     
@@ -73,7 +94,7 @@ def crear_equipo_hollow_recursivo(nombres, cantidad):
         return []
     
     seleccion = random.choice(nombres)
-    restantes = [n for n in nombres if n != seleccion]
+    restantes = filtrar_nombres_recursivo(nombres, seleccion)
     
     d = db_personajes[seleccion]
     pj = {
@@ -110,9 +131,7 @@ def construir_equipo_jugador_recursivo(lista):
 def inicializar_batalla(equipo_jugador):
     equipo_jugador_objs = construir_equipo_jugador_recursivo(equipo_jugador)
     
-    # Lista limpia, sin filtros
     nombres_permitidos = list(db_personajes.keys())
-    
     equipo_hollow = crear_equipo_hollow_recursivo(nombres_permitidos, 3)
 
     return {

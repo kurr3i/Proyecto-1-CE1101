@@ -1,6 +1,12 @@
+# ==========================================
+# INTERFAZ: COMPONENTES Y UTILIDADES
+# ==========================================
 import tkinter as tk
 import os
 
+# ==========================================
+# MANEJO DE RUTAS Y ARCHIVOS
+# ==========================================
 def buscar_ruta_recursiva(intentos, nombre):
     if not intentos:
         return None
@@ -11,6 +17,9 @@ def buscar_ruta_recursiva(intentos, nombre):
     
     return buscar_ruta_recursiva(intentos[1:], nombre)
 
+# ==========================================
+# CARGA DE IMÁGENES
+# ==========================================
 def cargar_img(nombre):
     posibles_directorios = [
         os.path.dirname(__file__),
@@ -23,6 +32,6 @@ def cargar_img(nombre):
         try:
             return tk.PhotoImage(file=ruta_final)
         except Exception as e:
-            print(f"⚠️ Error cargando imagen {nombre}: {e}")
+            print(f"Error cargando imagen {nombre}: {e}")
             return None
     return None

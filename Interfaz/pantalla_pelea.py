@@ -55,8 +55,14 @@ def crear_pantalla_pelea(frame_padre, estado_juego, callback_regreso, callback_v
                            font=("Consolas", 28, "bold", "italic"), fill="black", tags="efecto_critico")
         canvas.create_text(x_pos, y_pos, text="¡GOLPE CRÍTICO!", 
                            font=("Consolas", 28, "bold", "italic"), fill="#f1c40f", tags="efecto_critico")
+        
         canvas.tag_raise("efecto_critico")
-        frame_padre.after(1000, lambda: canvas.delete("efecto_critico"))
+        
+        def safe_delete():
+            if canvas.winfo_exists():
+                canvas.delete("efecto_critico")
+                
+        frame_padre.after(1000, safe_delete)
 
     def actualizar_escena_recursiva(lista_bandos):
         if len(lista_bandos) == 2:
